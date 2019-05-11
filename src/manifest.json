@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "presv-addon",
+    "version": "0.0",
+    "description": "this addon is the web accessibility survey support.",
+    "icons": {
+        "48": "icons/border-48.png"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "browser_action": {
+        "default_icon": "icons/border-48.png",
+        "default_title": "wa_test",
+        "default_popup": "popup/choose.html"
+    }
+}
