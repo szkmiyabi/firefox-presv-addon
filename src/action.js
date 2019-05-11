@@ -9,7 +9,7 @@
             for(var i=0; i<links.length; i++) {
                 var link = links.item(i);
                 var href = link.getAttribute("href");
-                if(is_css_file(href)) {
+                if(is_css_file(href) || is_css_link(link)) {
                     delarr.push(href);
                 }
             }
@@ -34,6 +34,16 @@
                 var pat = new RegExp(".+\.css");
                 if(pat.test(href)) return true;
                 else return false;
+            }
+            function is_css_link(link) {
+                if(link.hasAttribute("type")) {
+                    var pat = new RegExp("text/css");
+                    var type = link.getAttribute("type");
+                    if(pat.test(type)) return true;
+                    else return false;
+                } else {
+                    return false;
+                }
             }
             function delete_link(line) {
                 var lks = d.getElementsByTagName("link");
@@ -625,7 +635,7 @@
             util.css_cut();
         }
         else if(message.command === "altcheck") {
-            util.alt_attr_check();
+            util.image_alt();
         }
     });
 

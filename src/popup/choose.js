@@ -1,4 +1,5 @@
 function action_handler() {
+
     document.addEventListener("click", (e) => {
 
         const tabs = browser.tabs;
@@ -14,8 +15,18 @@ function action_handler() {
                     })
                     .catch(console.error("error"));
                 break;
+            case "altcheck":
+                browser.tabs.query({active: true, currentWindow: true})
+                    .then((tabs) => {
+                        browser.tabs.sendMessage(tabs[0].id, {
+                            command: "altcheck"
+                        });
+                    })
+                    .catch(console.error("error"));
+                break;
         }
     });
+
 }
 
 browser.tabs.executeScript({file: "/action.js"})
