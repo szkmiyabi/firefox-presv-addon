@@ -5,3 +5,7 @@ html, body {
 #popup-content {
     display: flex;
 }
+
+#popup-content div {
+    margin-right: 5px;
+}

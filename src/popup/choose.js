@@ -24,6 +24,15 @@ function action_handler() {
                     })
                     .catch(console.error("error"));
                 break;
+            case "targetcheck":
+                browser.tabs.query({active: true, currentWindow: true})
+                    .then((tabs) => {
+                        browser.tabs.sendMessage(tabs[0].id, {
+                            command: "targetcheck"
+                        });
+                    })
+                    .catch(console.error("error"));
+                break;
         }
     });
 

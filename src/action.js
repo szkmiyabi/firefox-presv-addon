@@ -631,11 +631,19 @@
 
     const util = new presvUtil();
     browser.runtime.onMessage.addListener((message) => {
-        if(message.command === "csscut") {
-            util.css_cut();
-        }
-        else if(message.command === "altcheck") {
-            util.image_alt();
+
+        let cmd = message.command;
+        
+        switch(cmd) {
+            case "csscut":
+                util.css_cut();
+                break;
+            case "altcheck":
+                util.image_alt();
+                break;
+            case "targetcheck":
+                util.target_attr();
+                breakl
         }
     });
 
