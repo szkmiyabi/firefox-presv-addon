@@ -1,0 +1,7 @@
+html, body {
+    width: 250px;
+}
+
+#popup-content {
+    display: flex;
+}
