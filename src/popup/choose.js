@@ -33,6 +33,42 @@ function action_handler() {
                     })
                     .catch(console.error("error"));
                 break;
+            case "documentlink":
+                browser.tabs.query({active: true, currentWindow: true})
+                    .then((tabs) => {
+                        browser.tabs.sendMessage(tabs[0].id, {
+                            command: "documentlink"
+                        });
+                    })
+                    .catch(console.error("error"));
+                break;
+            case "langcheck":
+                browser.tabs.query({active: true, currentWindow: true})
+                    .then((tabs) => {
+                        browser.tabs.sendMessage(tabs[0].id, {
+                            command: "langcheck"
+                        });
+                    })
+                    .catch(console.error("error"));
+                break;
+            case "label-and-title-check":
+                browser.tabs.query({active: true, currentWindow: true})
+                    .then((tabs) => {
+                        browser.tabs.sendMessage(tabs[0].id, {
+                            command: "label-and-title-check"
+                        });
+                    })
+                    .catch(console.error("error"));
+                break;
+            case "structcheck":
+                browser.tabs.query({active: true, currentWindow: true})
+                    .then((tabs) => {
+                        browser.tabs.sendMessage(tabs[0].id, {
+                            command: "structcheck"
+                        });
+                    })
+                    .catch(console.error("error"));
+                break;
         }
     });
 

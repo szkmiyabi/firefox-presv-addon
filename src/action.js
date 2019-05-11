@@ -633,17 +633,43 @@
     browser.runtime.onMessage.addListener((message) => {
 
         let cmd = message.command;
-        
+
         switch(cmd) {
             case "csscut":
+                if(window.runned_csscut) return;
                 util.css_cut();
+                window.runned_csscut = true;
                 break;
             case "altcheck":
+                if(window.runned_altcheck) return;
                 util.image_alt();
+                window.runned_altcheck = true;
                 break;
             case "targetcheck":
+                if(window.runned_targetcheck) return;
                 util.target_attr();
-                breakl
+                window.runned_targetcheck = true;
+                break;
+            case "documentlink":
+                if(window.runned_documentlink) return;
+                util.document_link();
+                window.runned_documentlink = true;
+                break;
+            case "langcheck":
+                if(window.runned_langcheck) return;
+                util.lang_attr();
+                window.runned_langcheck = true;
+                break;
+            case "label-and-title-check":
+                if(window.runned_label_and_title_check) return;
+                util.tag_label_and_title_attr();
+                window.runned_label_and_title_check = true;
+                break;
+            case "structcheck":
+                if(window.runned_structcheck) return;
+                util.semantic_check();
+                window.runned_structcheck = true;
+                break;
         }
     });
 
