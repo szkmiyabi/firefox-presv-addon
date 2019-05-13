@@ -580,7 +580,7 @@
             for(var i=0; i<ats.length; i++) {
                 var atag = ats.item(i);
                 if(atag.hasAttribute("href")) {
-                    href_vl = atag.getAttribute("href");
+                    var href_vl = atag.getAttribute("href");
                     if(is_doc_link(regx_arr, href_vl)) {
                         var cr_ext = get_document_type(regx_arr, href_vl);
                         var span_id = "bkm-isdocument-span-" + i;
