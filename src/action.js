@@ -637,6 +637,15 @@
                 return ret;
             }
         }
+
+        super_focus() {
+            var hd = document.getElementsByTagName("head")[0];
+            var elm = document.createElement("style");
+            elm.setAttribute("type", "text/css");
+            elm.id = "bkmk-super-focus-style-tag";
+            elm.textContent = "*:focus,*:active {opacity: 0.2;filter:contrast(300%);}";
+            hd.appendChild(elm);
+        }
     }
 
     const util = new presvUtil();
@@ -679,6 +688,11 @@
                 if(window.runned_structcheck) return;
                 util.semantic_check();
                 window.runned_structcheck = true;
+                break;
+            case "superfocus":
+                if(window.runned_superfocus) return;
+                util.super_focus();
+                window.runned_superfocus = true;
                 break;
         }
     });
