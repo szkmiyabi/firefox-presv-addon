@@ -78,6 +78,15 @@ function action_handler() {
                     })
                     .catch(console.error("error"));
                 break;
+            case "ariacheck":
+                    browser.tabs.query({active: true, currentWindow: true})
+                        .then((tabs) => {
+                            browser.tabs.sendMessage(tabs[0].id, {
+                                command: "ariacheck"
+                            });
+                        })
+                        .catch(console.error("error"));
+                break;
         }
     });
 

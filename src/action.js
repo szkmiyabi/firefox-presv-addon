@@ -291,7 +291,7 @@
             function tag_empty_a() {
                 var empas = document.querySelectorAll("a:empty, a span:empty");
                 var i = 0;
-                for(itm of empas) {
+                for(var itm of empas) {
                     var href_flg = null;
                     if(!itm.hasAttribute("name")) {
                         var css_txt = "color:#fff;font-size:90%!important;padding:1px;border-radius:3px;";
@@ -646,6 +646,76 @@
             elm.textContent = "*:focus,*:active {opacity: 0.2;filter:contrast(300%);}";
             hd.appendChild(elm);
         }
+
+        wai_aria_attr() {
+            function tag_with_role_attr() {
+                var elm = document.getElementsByTagName("*");
+                for(var i=0; i<elm.length; i++) {
+                    var el = elm.item(i);
+                    if(el.hasAttribute("role")) {
+                        var attr_text = el.getAttribute("role");
+                        el.setAttribute("style", "border:2px dotted #008080!important; position: relative;");
+                        add_label(el, i, "#279A9A", 'role: ' + attr_text);
+                    }
+                }
+            }
+            function tag_with_aria_attr() {
+                var elm = document.getElementsByTagName("*");
+                var pt = new RegExp(/aria-.*/mg);
+                for(var i=0; i<elm.length; i++) {
+                    var el = elm.item(i);
+                    var ret = "";
+                    var flg = false;
+                    var atts = el.attributes;
+                    for(var j=0; j<atts.length; j++) {
+                        var att = atts[j];
+                        if(pt.test(att.name)) {
+                            flg = true;
+                            ret += att.name + ": " + att.value + ", ";
+                        }
+                    }
+                    if(flg == true) {
+                        add_label(el, i, "#945E0E", ret);
+                    }
+                }
+            }
+            function tag_with_tabindex_attr() {
+                var elm = document.getElementsByTagName("*");
+                var pt = new RegExp(/tabindex/mg);
+                for(var i=0; i<elm.length; i++) {
+                    var el = elm.item(i);
+                    var ret = "";
+                    var flg = false;
+                    var atts = el.attributes;
+                    for(var j=0; j<atts.length; j++) {
+                        var att = atts[j];
+                        if(pt.test(att.name)) {
+                            flg = true;
+                            ret += att.name + ": " + att.value + ", ";
+                        }
+                    }
+                    if(flg == true) {
+                        add_label(el, i, "#C00000", ret);
+                    }
+                }
+            }
+            function add_label(obj, cnt, colorcode, add_text) {
+                var tag_name = obj.tagName;
+                tag_name = tag_name.toLowerCase();
+                var span_id = "bkm-" + tag_name + "-span-" + cnt;
+                var css_txt = "color:#fff;font-size:90%!important;font-weight:normal!important;padding:1px;border-radius:3px;";
+                css_txt += 'background:' + colorcode + ';';
+                var html_str = tag_name + '要素, ' + add_text;
+                var span = '<span id="' + span_id + '" style="' + css_txt + '">' + html_str + '</span>';
+                var addelm = document.createElement("span");
+                addelm.style.cssText = css_txt;
+                addelm.innerHTML = span;
+                obj.prepend(addelm);
+            }
+            tag_with_role_attr();
+            tag_with_aria_attr();
+            tag_with_tabindex_attr();
+        }
     }
 
     const util = new presvUtil();
@@ -655,44 +725,49 @@
 
         switch(cmd) {
             case "csscut":
-                if(window.runned_csscut) return;
+                if(window.runned_csscut == true) return;
                 util.css_cut();
                 window.runned_csscut = true;
                 break;
             case "altcheck":
-                if(window.runned_altcheck) return;
+                if(window.runned_altcheck == true) return;
                 util.image_alt();
                 window.runned_altcheck = true;
                 break;
             case "targetcheck":
-                if(window.runned_targetcheck) return;
+                if(window.runned_targetcheck == true) return;
                 util.target_attr();
                 window.runned_targetcheck = true;
                 break;
             case "documentlink":
-                if(window.runned_documentlink) return;
+                if(window.runned_documentlink == true) return;
                 util.document_link();
                 window.runned_documentlink = true;
                 break;
             case "langcheck":
-                if(window.runned_langcheck) return;
+                if(window.runned_langcheck == true) return;
                 util.lang_attr();
                 window.runned_langcheck = true;
                 break;
             case "label-and-title-check":
-                if(window.runned_label_and_title_check) return;
+                if(window.runned_label_and_title_check == true) return;
                 util.tag_label_and_title_attr();
                 window.runned_label_and_title_check = true;
                 break;
             case "structcheck":
-                if(window.runned_structcheck) return;
+                if(window.runned_structcheck == true) return;
                 util.semantic_check();
                 window.runned_structcheck = true;
                 break;
             case "superfocus":
-                if(window.runned_superfocus) return;
+                if(window.runned_superfocus == true) return;
                 util.super_focus();
                 window.runned_superfocus = true;
+                break;
+            case "ariacheck":
+                if(window.runned_ariacheck == true) return;
+                util.wai_aria_attr();
+                window.runned_ariacheck = true;
                 break;
         }
     });
