@@ -481,7 +481,7 @@
                 }
             }
             function tag_title_attr() {
-                var tags = ["a", "input", "textarea", "select"];
+                var tags = ["a", "input", "textarea", "select", "iframe"];
                 var idx = tags.length;
                 var in_funcs = new Array();
                 for(var i=0; i<idx; i++) {
@@ -539,6 +539,21 @@
                                     span_html = (title_vl === "") ? "title属性有:(空)" : "title属性有: " + title_vl;
                                 } else if(type === "title-no") {
                                     span_html = "title属性なし";
+                                }
+                                var span  = '<span id="' + span_id + '" style="' + span_style + '">' + span_html + '</span>';
+                                t.insertAdjacentHTML("beforebegin", span);
+                            } else if(tag_name === "iframe") {
+                                var span_html = "";
+                                var span_style = "";
+                                span_html = tag_name + "要素, ";
+                                var span_id = "bkm-title-attr-span-" + i;
+                                if(t.hasAttribute("title")) {
+                                    var title_vl = t.getAttribute("title");
+                                    span_html += (title_vl === "") ? "title属性有:(空)" : "title属性有: " + title_vl;
+                                    span_style = "padding-right:5px;color:#fff;font-size:12px;padding:1px;background:#008000;border-radius:5px;";
+                                } else {
+                                    span_html += "title属性なし";
+                                    span_style = "padding-right:5px;color:#fff;font-size:12px;padding:1px;background:#C00000;border-radius:5px;";
                                 }
                                 var span  = '<span id="' + span_id + '" style="' + span_style + '">' + span_html + '</span>';
                                 t.insertAdjacentHTML("beforebegin", span);
