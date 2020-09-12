@@ -89,6 +89,7 @@
                 imgtag.insertAdjacentHTML("beforebegin", span);
             }
             tag_link_img();
+            tag_area();
             function alt_attr_from_dirtycode(obj) {
                 var ret = "";
                 var imgtag = obj.outerHTML;
@@ -124,6 +125,44 @@
                         var img = imgs.item(j);
                         img.setAttribute("style", css_txt);
                     }
+                }
+            }
+            function tag_area() {
+                var area = document.getElementsByTagName("area");
+                for(var i=0; i<area.length; i++) {
+                    var areatag = area.item(i);
+                    var href_val = areatag.getAttribute("href");
+                    var alt_val = areatag.getAttribute("alt");
+                    var css_txt = "color:#fff;font-size:12px;padding:1px;background:#7B0D0D;margin-right:2px;display:inline-block;border: 2px dotted #fdcf1b;";
+                    var html_str = "";
+                    if(_alt_attr_check(areatag)) {
+                        html_str += "alt: " + alt_val;
+                    } else {
+                        html_str += "alt属性がない";
+                    }
+                    html_str += ", url: " + href_val;
+                    var target_val = "";
+                    if(areatag.hasAttribute("target")) {
+                        target_val = areatag.getAttribute("target");
+                    } else {
+                        target_val = null;
+                    }
+                    if(target_val != null) {
+                        if(target_val == "") {
+                            html_str += `, <span style="background-color:#0f7136 !important;margin:2px;">target属性有:(空)</span>`;
+                        } else {
+                            html_str += `, <span style="background-color:#0f7136 !important;margin:2px;">target属性有:${target_val}</span>`;
+                        }
+                    }
+                    var span = `<span id="bkm-area-span-${i}" style="${css_txt}">area要素, ` + html_str + "</span>";
+                    areatag.insertAdjacentHTML("beforebegin", span);
+                }
+                function _alt_attr_check(areatag) {
+                    var txt = areatag.outerHTML;
+                    var pt1 = new RegExp('alt=".*"');
+                    var pt2 = new RegExp('alt=');
+                    if(pt1.test(txt) && pt2.test(txt)) return true;
+                    else return false;
                 }
             }
         }
