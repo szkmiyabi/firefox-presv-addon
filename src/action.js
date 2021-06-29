@@ -237,7 +237,7 @@
                 }
             }
             function tag_semantic() {
-                var tags = ["strong", "em", "address", "nav", "section"];
+                var tags = ["strong", "em", "address", "nav", "section", "header", "footer", "main", "article", "hgroup", "aside"];
                 var idx = tags.length;
                 var in_funcs = new Array();
                 for(var i=0; i<idx; i++) {
