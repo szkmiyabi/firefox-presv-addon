@@ -405,7 +405,7 @@
             }
         }
     
-        tag_label_and_title_attr() {
+        tag_form_and_title_attr() {
             function tag_label_label() {
                 var lbs = document.getElementsByTagName("label");
                 for(var i=0; i<lbs.length; i++) {
@@ -443,7 +443,11 @@
                     } else {
                         typeattr = ip.getAttribute("type");
                     }
-                    if(typeattr === "text" || typeattr === "radio" || typeattr === "checkbox" || typeattr === "password") {
+                    if(typeattr !== "hidden" && typeattr !== "file" && 
+                        typeattr !== "checkbox" && typeattr !== "radio" && 
+                        typeattr !== "number" && typeattr !== "range" && typeattr !== "color" &&  
+                        typeattr !== "submit" && typeattr !== "image" && typeattr !== "button" && typeattr !== "reset"
+                    ) {
                         var span_html = "";
                         var span_style = "";
                         var span_id = "bkm-input-span-" + i;
@@ -615,11 +619,105 @@
                     in_funcs[i]();
                 }
             }
+            function tag_anything_attr() {
+                var tags = ["input", "textarea"];
+                var idx = tags.length;
+                var in_funcs = new Array();
+                for(var i=0; i<idx; i++) {
+                    var val = tags[i];
+                    in_funcs.push(make_funcs(val));
+                }
+                function make_funcs(tag) {
+                    return function() {
+                        var ts = document.getElementsByTagName(tag);
+                        for(var i=0; i<ts.length; i++) {
+                            var t = ts.item(i);
+                            var typeattr = "";
+                            var tag_name = t.tagName.toLowerCase();
+                            if(tag_name === "input") {
+                                if(!t.hasAttribute("type")) {
+                                    typeattr = "text";
+                                } else {
+                                    typeattr = t.getAttribute("type");
+                                }
+                                if(typeattr !== "hidden" && typeattr !== "file" && 
+                                    typeattr !== "checkbox" && typeattr !== "radio" && 
+                                    typeattr !== "number" && typeattr !== "range" && typeattr !== "color" &&  
+                                    typeattr !== "submit" && typeattr !== "image" && typeattr !== "button" && typeattr !== "reset"
+                                ) {
+                                    var span_html = "";
+                                    var span_style = "padding-right:5px;color:#fff;font-size:12px;padding:1px;background:#9f3088;border-radius:5px;";
+                                    var span_id = "bkm-input-anything-attr-span-" + i;
+                                    var type = "";
+                                    if(t.hasAttribute("autocomplete")) {
+                                        type = "autocomplete-yes";
+                                    } else {
+                                        type = "autocomplete-no";
+                                    }
+                                    if(type === "autocomplete-yes") {
+                                        var autocomplete_vl = t.getAttribute("autocomplete");
+                                        span_html = (autocomplete_vl === "") ? "autocomplete属性有:(空)" : "autocomplete属性有: " + autocomplete_vl;
+                                    } else if(type === "autocomplete-no") {
+                                        span_html = "autocomplete属性なし";
+                                    }
+                                    if(t.hasAttribute("required")) {
+                                        type = "required-yes";
+                                    } else {
+                                        type = "required-no";
+                                    }
+                                    if(type === "required-yes") {
+                                        var required_vl = t.getAttribute("required");
+                                        span_html += (required_vl === "") ? ", required属性有:(空)" : "required属性有: " + required_vl;
+                                    } else if(type === "required-no") {
+                                        span_html += ", required属性なし";
+                                    }
+                                    span_html = "type属性:" + typeattr + ", " + span_html;
+                                    var span  = '<span id="' + span_id + '" style="' + span_style + '">' + span_html + '</span>';
+                                    t.insertAdjacentHTML("beforebegin", span);
+                                }
+                            } else if(tag_name === "textarea") {
+                                var span_html = "";
+                                var span_style = "padding-right:5px;color:#fff;font-size:12px;padding:1px;background:#9f3088;border-radius:5px;";
+                                var span_id = "bkm-ta-anything-attr-span-" + i;
+                                var type = "";
+                                if(t.hasAttribute("autocomplete")) {
+                                    type = "autocomplete-yes";
+                                } else {
+                                    type = "autocomplete-no";
+                                }
+                                if(type === "autocomplete-yes") {
+                                    var autocomplete_vl = t.getAttribute("autocomplete");
+                                    span_html = (autocomplete_vl === "") ? "autocomplete属性有:(空)" : "autocomplete属性有: " + autocomplete_vl;
+                                } else if(type === "autocomplete-no") {
+                                    span_html = "autocomplete属性なし";
+                                }
+                                if(t.hasAttribute("required")) {
+                                    type = "required-yes";
+                                } else {
+                                    type = "required-no";
+                                }
+                                if(type === "required-yes") {
+                                    var required_vl = t.getAttribute("required");
+                                    span_html_+= (required_vl === "") ? ", required属性有:(空)" : "required属性有: " + required_vl;
+                                } else if(type === "required-no") {
+                                    span_html += ", required属性なし";
+                                }
+                                var span  = '<span id="' + span_id + '" style="' + span_style + '">' + span_html + '</span>';
+                                t.insertAdjacentHTML("beforebegin", span);
+                            }
+                        }
+                    }
+                }
+                for(var i=0; i<idx; i++) {
+                    in_funcs[i]();
+                }
+            }
             tag_label_label();
             tag_label_input();
             tag_label_textarea();
             tag_label_select();
             tag_title_attr();
+            tag_anything_attr();
         }
     
         document_link() {
@@ -803,9 +901,9 @@
                 util.lang_attr();
                 window.runned_langcheck = true;
                 break;
-            case "label-and-title-check":
+            case "form-and-title-check":
                 if(window.runned_label_and_title_check == true) return;
-                util.tag_label_and_title_attr();
+                util.tag_form_and_title_attr();
                 window.runned_label_and_title_check = true;
                 break;
             case "structcheck":

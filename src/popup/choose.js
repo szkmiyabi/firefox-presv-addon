@@ -51,11 +51,11 @@ function action_handler() {
                     })
                     .catch(console.error("error"));
                 break;
-            case "label-and-title-check":
+            case "form-and-title-check":
                 browser.tabs.query({active: true, currentWindow: true})
                     .then((tabs) => {
                         browser.tabs.sendMessage(tabs[0].id, {
-                            command: "label-and-title-check"
+                            command: "form-and-title-check"
                         });
                     })
                     .catch(console.error("error"));
